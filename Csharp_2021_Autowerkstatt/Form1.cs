@@ -197,5 +197,42 @@ namespace Csharp_2021_Autowerkstatt
 			// Formular anzeigen
 			frmReparaturen.ShowDialog();
 		}
+
+		private void bindingNavigatorDeleteItem_Click(object sender, EventArgs e)
+		{
+			// Ausgewähltes Fahrzeug auslesen & casten
+			var ausgewähltesFahrzeug = fahrzeugBindingSource.Current as Fahrzeug;
+
+			// Vorgang abbrechen, falls kein Fahrzeug ausgewählt wurde
+			if (ausgewähltesFahrzeug == null) return;
+
+			// Datenbankzugriffe immer in einem try-catch-Block!
+			try
+			{
+				// Zuerst alle Reparaturen löschen!
+				var reparaturen = new List<Reparatur>();
+
+				// Alle zu diesem Fahrzeug gehörigen Reparaturen in einer Liste speichern
+				foreach (var reparatur in ausgewähltesFahrzeug.Reparaturs)
+					reparaturen.Add(reparatur);
+
+				// Alle in dieser Liste enthaltenen Reparaturen löschen
+				foreach (var reparatur in reparaturen)
+					ctx.Reparaturs.Remove(reparatur);
+				
+				// Fahrzeug löschen
+				ctx.Fahrzeugs.Remove(ausgewähltesFahrzeug);
+
+				// Datenbank speichern
+				ctx.SaveChanges();
+
+				// Anzeige aktualisieren
+				fahrzeugBindingSource.DataSource = ctx.Fahrzeugs.ToList();
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
 	}
 }

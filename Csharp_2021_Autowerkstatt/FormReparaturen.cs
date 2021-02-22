@@ -33,12 +33,26 @@ namespace Csharp_2021_Autowerkstatt
 		private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			// Ausgewählte Fahrzeugnummer auslesen
-			int fahrzeugnummer = Convert.ToInt32(comboBox1.SelectedValue);
+			string kennzeichen = Convert.ToString(comboBox1.SelectedValue);
 
 			// Fahrzeuge filtern
 			reparaturBindingSource.DataSource = ctx.Reparaturs
-				.Where(r => r.Fahrzeug.Nr == fahrzeugnummer)
+				.Where(r => r.Fahrzeug.Kennzeichen == kennzeichen)
 				.ToList();
+
+			// Filteranzeige aktualisieren
+			lblFilteranzeige.Text =
+				"Reparaturen von Fahrzeug - " +
+				comboBox1.Text + " -";
+		}
+
+		private void BtnAlleAnzeigen_Click(object sender, EventArgs e)
+		{
+			// Alle Reparaturen aus der Datenbank auslesen und anzeigen
+			reparaturBindingSource.DataSource = ctx.Reparaturs.ToList();
+
+			// Filteranzeige aktualisieren
+			lblFilteranzeige.Text = "Alle Reparaturen";
 		}
 	}
 }

@@ -57,7 +57,7 @@ namespace Csharp_2021_Autowerkstatt
 			this.comboBox1.Name = "comboBox1";
 			this.comboBox1.Size = new System.Drawing.Size(138, 21);
 			this.comboBox1.TabIndex = 3;
-			this.comboBox1.ValueMember = "Nr";
+			this.comboBox1.ValueMember = "Kennzeichen";
 			this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
 			// 
 			// fahrzeugBindingSource
@@ -74,6 +74,7 @@ namespace Csharp_2021_Autowerkstatt
 			this.BtnAlleAnzeigen.TabIndex = 2;
 			this.BtnAlleAnzeigen.Text = "Alle Anzeigen";
 			this.BtnAlleAnzeigen.UseVisualStyleBackColor = true;
+			this.BtnAlleAnzeigen.Click += new System.EventHandler(this.BtnAlleAnzeigen_Click);
 			// 
 			// label1
 			// 
