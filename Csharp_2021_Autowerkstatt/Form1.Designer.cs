@@ -326,6 +326,7 @@ namespace Csharp_2021_Autowerkstatt
 			this.BtnReparaturen.TabIndex = 25;
 			this.BtnReparaturen.Text = "Reparaturen anzeigen";
 			this.BtnReparaturen.UseVisualStyleBackColor = true;
+			this.BtnReparaturen.Click += new System.EventHandler(this.BtnReparaturen_Click);
 			// 
 			// BtnÜbernehmen
 			// 

@@ -55,6 +55,7 @@ namespace Csharp_2021_Autowerkstatt
 			this.BtnAbbrechen.TabIndex = 27;
 			this.BtnAbbrechen.Text = "Abbrechen";
 			this.BtnAbbrechen.UseVisualStyleBackColor = true;
+			this.BtnAbbrechen.Click += new System.EventHandler(this.BtnAbbrechen_Click);
 			// 
 			// BtnSpeichern
 			// 
@@ -199,6 +200,7 @@ namespace Csharp_2021_Autowerkstatt
 			this.Controls.Add(this.label1);
 			this.Name = "FormFahrzeuge";
 			this.Text = "FormFahrzeuge";
+			this.Load += new System.EventHandler(this.FormFahrzeuge_Load);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 

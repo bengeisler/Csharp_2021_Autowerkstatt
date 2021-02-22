@@ -115,11 +115,10 @@ namespace Csharp_2021_Autowerkstatt
 			// Objekt für das neue Formular erstellen
 			var frmNeuesFahrzeug = new FormFahrzeuge();
 
-			// Neues Objekt vom Typ "Fahrzeug erstellen"
-			var ausgewähltesFahrzeug = new Fahrzeug();
-
-			// Objekt "ausgewähles Fahrzeug" wird von Formular 1 => Formular 2 übergeben
-			frmNeuesFahrzeug.FahrzeugInBearbeitung = ausgewähltesFahrzeug;
+			// Es wird ein neues Objekt vom Typ "Fahrzeug" erzeugt und der
+			// Eigenschaft "FahrzeugInBearbeitung" von frmNeuesFahrzeug zugewiesen
+			// (Datenübergabe von Form1 => frmNeuesFahrzeug)
+			frmNeuesFahrzeug.FahrzeugInBearbeitung = new Fahrzeug();
 
 			// Formular zur Fahrzeugeingabe aufrufen und anzeigen
 			frmNeuesFahrzeug.ShowDialog();
@@ -129,7 +128,19 @@ namespace Csharp_2021_Autowerkstatt
 			{
 				if (frmNeuesFahrzeug.DialogResult == DialogResult.OK)
 				{
-					if (frmNeuesFahrzeug.)
+					// Das in dem Formular "Fahrzeuge" bearbeitete Fahrzeug wird der Datenbank hinzugefügt
+					// - ctx: Schnittstelle zur Datenbank
+					// - Fahrzeugs: Tabelle "Fahrzeuge" in der Datenbank
+					// - Add: Methode zum Hinzufügen eines neuen Objekts
+					// - frmNeuesFahrzeug.FahrzeugInBearbeitung:  Das Fahrzeug, das in dem zweiten Formular
+					//																						angelegt wurde.
+					ctx.Fahrzeugs.Add(frmNeuesFahrzeug.FahrzeugInBearbeitung);
+
+					// Änderungen in der Datenbank speichern
+					ctx.SaveChanges();
+
+					// Anzeige aktualisieren: Datenquelle neu beschreiben
+					fahrzeugBindingSource.DataSource = ctx.Fahrzeugs.ToList();
 				}
 			}
 			catch (Exception ex)
@@ -142,6 +153,49 @@ namespace Csharp_2021_Autowerkstatt
 		private void fahrzeugDataGridView_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
 			// Bestehendes Fahrzeug bearbeiten (Über Doppelklick)
+
+			// Objekt für das neue Formular erstellen
+			var frmNeuesFahrzeug = new FormFahrzeuge();
+
+			// Aktuell ausgewähltes Fahrzeug auslesen
+			var ausgewähltesFahrzeug = fahrzeugBindingSource.Current as Fahrzeug;
+
+			// Falls kein Fahrzeug ausgewählt => Abbruch
+			if (ausgewähltesFahrzeug == null) return;
+
+			// Das aktuell im DataGridView ausgewählte Fahrzeug wird der 
+			// Eigenschaft "FahrzeugInBearbeitung" von frmNeuesFahrzeug zugewiesen
+			// (Datenübergabe von Form1 => frmNeuesFahrzeug)
+			frmNeuesFahrzeug.FahrzeugInBearbeitung = ausgewähltesFahrzeug;
+
+			// Formular zur Fahrzeugeingabe aufrufen und anzeigen
+			frmNeuesFahrzeug.ShowDialog();
+
+			// Zugriff auf die Datenbank immer in try-catch!
+			try
+			{
+				if (frmNeuesFahrzeug.DialogResult == DialogResult.OK)
+				{
+					// Änderungen in der Datenbank speichern
+					ctx.SaveChanges();
+
+					// Anzeige aktualisieren: Datenquelle neu beschreiben
+					fahrzeugBindingSource.DataSource = ctx.Fahrzeugs.ToList();
+				}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message);
+			}
+		}
+
+		private void BtnReparaturen_Click(object sender, EventArgs e)
+		{
+			// Objekt zur Anzeige des Formulars erstellen
+			var frmReparaturen = new FormReparaturen();
+
+			// Formular anzeigen
+			frmReparaturen.ShowDialog();
 		}
 	}
 }
